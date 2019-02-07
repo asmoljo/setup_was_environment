@@ -1,0 +1,8 @@
+---
+# tasks file for test1
+
+- name: Test ispisa varijable
+  debug:
+    msg: "{{ LOCATION }}"
+   
+  tags: test_ispisa_varijable

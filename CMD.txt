@@ -1,0 +1,3 @@
+ansible-playbook startRoles.yml --tags='os_prepare,ibmim_install' -e 'target=meso role=was-silent-install'
+
+ansible-playbook startRoles.yml -e 'target=hrana role=test1'

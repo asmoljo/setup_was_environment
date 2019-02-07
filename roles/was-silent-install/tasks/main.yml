@@ -1,0 +1,33 @@
+---
+# tasks file for was-silent-install
+- name: Include OS_prepare tasks
+  include_tasks: OS_prepare.yml
+  tags: os_prepare
+
+
+- name: Include IBMIM_silent_install tasks
+  include_tasks: IBMIM_silent_install.yml
+  tags: ibmim_install
+  
+- name: Include WAS_silent_install tasks
+  include_tasks: WAS_silent_install.yml
+  tags: was_install
+  
+- name: Include WAS_silent_remove tasks
+  include_tasks: WAS_silent_remove.yml
+  tags: was_remove
+  
+- name: test failanja
+  debug:
+    msg: 'nisam failao'
+
+
+  
+
+  
+  
+  
+  
+
+
+   

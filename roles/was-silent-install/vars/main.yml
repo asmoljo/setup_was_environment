@@ -1,0 +1,6 @@
+# vars file for was-silent-install
+NFS_SRC: "192.168.0.22:/software"
+NFS_DST: "/software"
+IBMIM_HOME: "/opt/IBM/InstallationManager"
+RPM_EXTRA: ["gtk2","gtk2.i686","libXtst","xorg-x11-fonts-Type1","mailx","glibc.i686 ","libXtst.i686","libXft.i686","compat-libstdc++-33.i686","nfs-utils"]
+

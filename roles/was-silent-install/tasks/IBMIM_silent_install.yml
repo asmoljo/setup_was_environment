@@ -1,0 +1,35 @@
+#Kontrola da li vec postoji i instaliranje IBMIM ako ne postoji
+- name: kontrola da li IBMIM postoji na serveru
+  stat: 
+    path:  "{{IBMIM_HOME}}"
+  register: check_ibmim_var
+  tags: ibmim_install
+  
+- name: pokretanje komande za ispis IBMIM-a
+  shell: '"{{IBMIM_HOME}}"/eclipse/tools/imcl -version'
+  register: ibmim_version_var
+  when: check_ibmim_var.stat.exists == True
+  tags: ibmim_install
+- name: ispis verzije IBMIM-a
+  debug:
+    var: ibmim_version_var.stdout_lines
+  when: check_ibmim_var.stat.exists == True
+  tags: ibmim_install 
+  
+- name: Obavijest ako server vec ima instaliran IBMIM
+  debug:
+    msg: 'IBMIM je vec instaliran na lokaciji "{{IBMIM_HOME}}" ! Preskacem ovaj task.'
+  when: check_ibmim_var.stat.exists == True
+  tags: ibmim_install
+  
+- name: silent install IBMIM-a
+  shell: '"{{NFS_DST}}"/IBM/IBMIM/agent.installer.linux.gtk.x86_1.8.9000.20180313_1417/installc -silent -acceptLicense'
+  when: check_ibmim_var.stat.exists == False
+  register: ibmim_install_var
+  tags: ibmim_install
+  
+- name: ispis rezultata instaliranja IBMIM-a
+  debug: 
+    var: ibmim_install_var.stdout_lines
+  when: check_ibmim_var.stat.exists == False
+  tags: ibmim_install

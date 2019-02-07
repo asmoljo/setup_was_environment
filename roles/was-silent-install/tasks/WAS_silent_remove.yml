@@ -1,0 +1,36 @@
+#Kontrola da li vec postoji i instaliranje WAS ako ne postoji
+- name: kontrola da li WAS postoji na serveru
+  stat: 
+    path: /opt/IBM/WebSphere/AppServer
+  register: check_was_var
+  tags: was_remove
+  
+- name: pokretanje komande za ispis verzije WAS-a
+  shell: /opt/IBM/WebSphere/AppServer/bin/versionInfo.sh
+  register: versionInfo_var
+  when: check_was_var.stat.exists == True
+  tags: was_remove
+- name: ispis verzije WAS-a
+  debug:
+    var: versionInfo_var.stdout_lines
+  tags: was_remove
+
+#Ovo radi fail svih taskova ali samo za one servere na kojima je fail. Na drugim serverima se taskovi normalno izvrsavaju
+- name: prekid taskova na serveru ako server nema instaliran WAS
+  fail:
+    msg: 'WAS ne postoji na lokaciji "/opt/IBM/WebSphere/AppServer/properties/version/WAS.product" ! Prekidam izvrsavanje.'
+  when: check_was_var.stat.exists == False
+  tags: was_remove
+  
+- name: silent remove WAS
+  shell: '"{{IBMIM_HOME}}"/eclipse/tools/imcl -acceptLicense -showProgress -input "{{NFS_DST}}"/IBM/IM_SILENT_FILES/was-silent-remove.xml -log /tmp/was-silent-remove-log.xml'
+  when: check_was_var.stat.exists == True
+  register: was_remove_var
+  tags: was_remove
+- name: ispis rezultata brisanja WAS-a
+  debug: 
+    var: was_remove_var.stdout_lines
+  when: check_was_var.stat.exists == True
+  tags: was_remove
+    
+  

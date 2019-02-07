@@ -1,0 +1,44 @@
+#Kontrola da li vec postoji i instaliranje WAS ako ne postoji
+- name: kontrola da li WAS postoji na serveru
+  stat: 
+    path: /opt/IBM/WebSphere/AppServer/bin
+  register: check_was_var
+  tags: was_install
+  
+- name: pokretanje komande za ispis verzije WAS-a
+  shell: /opt/IBM/WebSphere/AppServer/bin/versionInfo.sh
+  register: versionInfo_var
+  when: check_was_var.stat.exists == True
+  tags: was_install
+- name: ispis verzije WAS-a
+  debug:
+    var: versionInfo_var.stdout_lines
+  when: check_was_var.stat.exists == True
+  tags: was_install
+
+#Ovo radi fail svih taskova ali samo za one servere na kojima je fail. Na drugim serverima se taskovi normalno izvrsavaju
+- name: prekid taskova na serveru ako server vec ima instaliran WAS
+  fail:
+    msg: 'WAS je vec instaliran na lokaciji "/opt/IBM/WebSphere/AppServer/bin" ! Prekidam izvrsavanje.'
+  when: check_was_var.stat.exists == True
+  tags: was_install
+  
+#Da ne bude zabune...ovo brise zaostalu 'praznu' strukturu kad je WAS postojao, pa je deinstaliran. Ovo treba jer smeta novoj instalaciji.
+- name: brisanje stare putanje WAS-a, ako postoji
+  file:
+    path: /opt/IBM/WebSphere
+    state: absent
+  when: check_was_var.stat.exists == False
+  tags: was_install
+    
+- name: silent install WAS
+  shell: '"{{IBMIM_HOME}}"/eclipse/tools/imcl -acceptLicense -showProgress -input "{{NFS_DST}}"/IBM/IM_SILENT_FILES/was-silent-install.xml -log /tmp/was-silent-install-log.xml'
+  when: check_was_var.stat.exists == False
+  register: was_install_var
+  tags: was_install
+- name: ispis rezultata instaliranja WAS-a
+  debug: 
+    var: was_install_var.stdout_lines
+  when: check_was_var.stat.exists == False
+  tags: was_install
+  

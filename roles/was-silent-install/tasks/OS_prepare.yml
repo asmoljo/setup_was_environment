@@ -1,0 +1,25 @@
+#Priprema OS-a za instalaciju IBMIM-a i WAS-a
+  
+- name: instaliranje dodatnih rpm paketa
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop: "{{RPM_EXTRA}}"
+  tags: os_prepare
+  
+- name: montiranje nfs sharea sa instalacijama
+  mount: path="{{NFS_DST}}" src="{{NFS_SRC}}" fstype=nfs state=mounted
+  tags: os_prepare
+  
+- name: update all rpm packages
+  yum: 
+    update_cache: yes
+    name: '*'
+    state: latest
+  tags: os_prepare
+  
+- name: dodavanje smtp servera u /etc/mail.rc
+  lineinfile:
+    path: /etc/mail.rc
+    line: 'set smtp=mail.xyz.hr'
+  tags: os_prepare
