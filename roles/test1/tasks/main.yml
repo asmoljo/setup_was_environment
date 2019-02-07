@@ -4,5 +4,21 @@
 - name: Test ispisa varijable
   debug:
     msg: "{{ LOCATION }}"
-   
   tags: test_ispisa_varijable
+
+- name: Kreiranje HFS_HOME
+  file: 
+    path: "{{ HFS_HOME }}"
+    state: directory
+    owner: ansible
+
+- name: Kreiranje HFS_HOME i prop1
+  file: 
+    #path: '"{{ HFS_HOME }}"prop1.conf'
+    path: '/tmp/prop1.conf'
+    state: touch    
+    
+- name: Kopiranje u HFS_HOME
+  copy:
+    content: "{{ LOCATION }}"
+    dest: '/tmp/prop1.conf'
