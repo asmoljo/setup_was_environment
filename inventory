@@ -56,7 +56,7 @@ voce
 povrce
 
 [voce]
-banana
+VXDEV ansible_host=banana
 limun
 
 [povrce]

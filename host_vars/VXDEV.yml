@@ -1,0 +1,18 @@
+---
+LOCATION: 'ZAGREB'
+
+HFS: {
+  USER: "wasmaster",
+  GROUP: "vertex",
+  HOME: "/app/vtx/d1",
+  HOME_TREE: ["/app/vtx/d1","/app/vtxEU/d1","/app/vtxUK/d1"],
+  SUBF: ["config","bin","lib","vlib","logs"],
+  LINKS: ["bin","lib","vlib"]
+}
+
+AAA: {
+  BB: "asdasddda",
+  CC: "fghgggghg",
+  DD: "ccvvvbv"
+}
+

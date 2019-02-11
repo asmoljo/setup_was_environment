@@ -22,3 +22,40 @@
   copy:
     content: "{{ LOCATION }}"
     dest: '/tmp/prop1.conf'
+
+- name: Test ispisa varijable koja dictionary
+  debug:
+    msg: "{{item}}"
+  with_dict: "{{ AAA }}"
+  tags: print_dict
+  
+- name: Test ispisa varijable koja lista
+  debug:
+    msg: "{{item}}"
+  loop: "{{ HFS.HOME_TREE }}"
+  tags: print_list
+  
+- name: Test ispisa nested varijabli koje su liste
+  debug:
+    msg: "{{item[0]}}/{{item[1]}}"
+  with_nested: 
+    - "{{ HFS.HOME_TREE }}"
+    - "{{ HFS.HOME_SUBF }}"
+  tags: print_nested_lists
+  
+
+  
+- name: Test kreiranja HFS nested
+  file:
+    path: "{{item[0]}}/{{item[1]}}"
+    state: directory
+    owner: "{{ HFS.USER }}"
+    group: "{{ HFS.GROUP }}"
+    mode: "u+rwx,g+rwx,o-rwx"
+  with_nested: 
+    - "{{ HFS.HOME_TREE }}"
+    - "{{ HFS.SUBF }}"
+  tags: create_hfs_tree
+  
+
+  

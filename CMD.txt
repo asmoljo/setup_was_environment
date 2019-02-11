@@ -1,3 +1,7 @@
 ansible-playbook startRoles.yml --tags='os_prepare,ibmim_install' -e 'target=meso role=was-silent-install'
 
 ansible-playbook startRoles.yml -e 'target=hrana role=test1'
+
+ansible -b all -m group -a 'name=vertex state=present'
+
+ansible -b all -m user -a 'name=wasmaster state=present'

@@ -1,3 +1,9 @@
 ---
 LOCATION: 'Nepoznata lokacija'
 HFS_HOME: '/tmp/projektX/x1'
+
+CONFIG_FILES: ["properties_temp2.common", "config-data_temp.xml","config-db_temp.xml", "config-report_temp.xml", "config-revision_temp.xml","config-adapter_temp.xml","config-mcs_temp.xml","config-adapter_temp.xml","config-server_temp.xml","config-tm_temp.xml","vafBam.properties","vafBpm.properties","vafDm_temp.properties","vafGwtClient.properties","vafGwtService.properties","vafJms.properties","vafMcs.properties","vafReport.properties","vafServerPush.properties","vafTrx.properties","vafTsw.properties","vafWebAdapter.properties","vafWs.properties","properties_temp.build","config-addparam_temp.xml","config-tm_temp.xml"]
+
+
+
+
